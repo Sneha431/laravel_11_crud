@@ -28,14 +28,15 @@
       <div class="col-md-10">
         <div class="card border-0 shadow-lg my-4">
           <div class="card-header bg-dark text-white">
-            <h3>Create Product</h3>
+            <h3>Edit Product</h3>
           </div>
-          <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('products.update',$product->id) }}" method="POST" enctype="multipart/form-data">
+            @method('put')
             @csrf
             <div class="card-body">
               <div class="mb-3">
                 <label for="" class="form-label h5">Name</label>
-                <input type="text" value="{{old('name')}}"
+                <input type="text" value="{{old('name',$product->name)}}"
                   class="form-control form-control-md @error('name') is-invalid @enderror" placeholder="Name"
                   name="name">
                 @error('name')
@@ -44,7 +45,7 @@
               </div>
               <div class="mb-3">
                 <label for="" class="form-label h5">Sku</label>
-                <input type="text" value="{{old('sku')}}"
+                <input type="text" value="{{old('sku',$product->sku)}}"
                   class="form-control form-control-md @error('sku') is-invalid @enderror" placeholder="Sku" name="sku">
                 @error('sku')
                 <p class="invalid-feedback">{{$message}}</p>
@@ -54,7 +55,7 @@
 
                 <label for="" class="form-label h5">Price</label>
                 <input type="text" class="form-control form-control-md @error('price') is-invalid @enderror"
-                  placeholder="Price" name="price" value="{{old('price')}}">
+                  placeholder="Price" name="price" value="{{old('price',$product->price)}}">
                 @error('price')
                 <p class="invalid-feedback">{{$message}}</p>
                 @enderror
@@ -70,15 +71,18 @@
                 -->
                 <label for="" class="form-label h5">Description</label>
                 <textarea name="description" id="" cols="30" rows="5" class="form-control"
-                  placeholder="Description">{{ old('description') }}</textarea>
+                  placeholder="Description">{{ old('description',$product->description) }}</textarea>
               </div>
               <div class="mb-3">
 
                 <label for="" class="form-label h5">Image</label>
                 <input type="file" class="form-control form-control-md" placeholder="Image" name="image">
+                @if($product->image!="")
+                <img src="{{asset('uploads/products/'.$product->image)}}" alt="" class="w-50 my-2">
+                @endif
               </div>
               <div class="d-grid">
-                <button class="btn btn-lg btn-primary">Submit</button>
+                <button class="btn btn-lg btn-primary">Update</button>
               </div>
             </div>
           </form>
